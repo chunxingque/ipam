@@ -1,0 +1,90 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="content-top" style="display: flex; margin: 10px">
+  <a class="btn btn-primary btn-sm" href="/user/add/" role="button">用户添加</a>
+</div>
+
+<div class="table" style="display: flex; flex-direction: column;">
+   <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">用户名称</th>
+          <th scope="col">用户邮箱</th>
+          <th scope="col">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+         {% for user in users %}
+        <tr>
+          <td>{{ user.username }}</td>
+          <td>{{ user.email }}</td>
+          <td>
+            <div class="dropdown">
+               <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                 操作
+               </button>
+               <ul class="dropdown-menu">
+                 <li><a class="dropdown-item" href="/user/edit/{{ user.id }}/">编辑</a></li>
+                 <li><a class="dropdown-item" href="/user/changepasswd/{{ user.id }}/">修改密码</a></li>
+                 <li><a class="dropdown-item" href="/user/del/{{ user.id }}/">删除</a></li>
+               </ul>
+             </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <nav aria-label="分页" style="align-self: end; display: flex;align-items: baseline;">
+      <span class="page-item" > 总共 {{users.paginator.count}} 条 {{ users.paginator.num_pages }} 页</span>
+      <ul class="pagination">
+        {% if users.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page=1&page_size={{users.paginator.per_page}}">第一页</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{ users.previous_page_number }}&page_size={{users.paginator.per_page}}">上一页</a></li>
+        {% else %}
+        <li class="page-item disabled"><a class="page-link" href="#">上一页</a></li>
+        {% endif %}
+        
+        <li class="page-item"><a class="page-link" href="?page={{ users.number }}&page_size={{users.paginator.per_page}}">{{ users.number }}</a></li>
+        {% if users.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ users.next_page_number }}&page_size={{users.paginator.per_page}}">下一页</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{ users.paginator.num_pages}}&page_size={{users.paginator.per_page}} }}">最后一页</a></li>
+        {% else %}
+          <li class="page-item disabled"><a class="page-link" href="#">下一页</a></li>
+        {% endif %}
+      </ul>
+      
+      <select id="pageSelect" class="form-select form-select-sm mb-3" style="width: 100px;">
+        <option value="5">5 条/页</option>
+        <option value="10" selected>10 条/页</option>
+        <option value="15">15 条/页</option>
+      </select>
+    </nav>
+
+  </div>
+
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script>
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    $(function() {
+      //分页选择
+      $("#pageSelect").val("{{users.paginator.per_page}}");
+      $("#pageSelect").change(function () {
+        var page_size = $(this).val();
+        location.href="?page=1&page_size="+page_size;
+      });
+    });
+
+</script>
+{% endblock javascripts %}

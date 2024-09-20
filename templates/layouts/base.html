@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理界面布局</title>
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-5.3.0/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+
+    <script src="{% static 'plugins/jquery/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'plugins/popperjs/popper.min.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-5.3.0/js/bootstrap.bundle.min.js' %}"></script>
+    
+    <!-- Specific Page CSS goes HERE  -->
+    {% block stylesheets %}{% endblock stylesheets %}
+
+</head>
+
+<body>
+    <div class="main-container">
+        <div class="sidebar">
+          {% include 'includes/sidebar.html' %}
+        </div>
+        <div class="main-content">
+            <div class="header"> <p style="color: #000000;">
+              {% include "includes/header.html" %}
+            </p></div>
+            <div class="content">
+              {% block content %}{% endblock content %}
+            </div>
+        </div>
+    </div>
+    <!-- Specific Page JS goes HERE  -->
+    {% block javascripts %}{% endblock javascripts %}
+</body>
+
+</html>

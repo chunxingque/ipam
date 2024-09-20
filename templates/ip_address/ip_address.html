@@ -1,0 +1,108 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+
+{% block content %}
+
+<div class="content-top row justify-content-start mb-3" style="margin: 10px">
+  <div class="col-2">
+    <div class="input-group">
+      <input type="text" class="form-control" id="searchinput" placeholder="请输入ip地址" aria-describedby="basic-addon2">
+      <button class="btn btn-primary btn-sm"  id="searchbtn" type="button">搜索</button>
+    </div>
+  </div>
+  <div class="col-1" style="display: flex;">
+    <a class="btn btn-primary btn-sm" href="/ip/add/" role="button" style="align-content: center;">IP地址添加</a>
+  </div>
+</div>
+
+<div class="table" style="display: flex; flex-direction: column;">
+   <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">ip地址</th>
+          <th scope="col">子网</th>
+          <th scope="col">描述</th>
+          <th scope="col">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+         {% for item in ips %}
+        <tr>
+          <td>{{ item.ip_address }}</td>
+          <td>{{ item.subnet.subnet }}</td>
+          <td>{{ item.description }}</td>
+          <td>
+            <div class="dropdown">
+               <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                 操作
+               </button>
+               <ul class="dropdown-menu">
+                 <li><a class="dropdown-item" href="/ip/edit/{{ item.id }}/">编辑</a></li>
+                 <li><a class="dropdown-item" href="/ip/del/{{ item.id }}/">删除</a></li>
+               </ul>
+             </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <nav aria-label="分页" style="align-self: end; display: flex;align-items: baseline;">
+      <span class="page-item" > 总共 {{ips.paginator.count}} 条 {{ ips.paginator.num_pages }} 页</span>
+      <ul class="pagination">
+        {% if ips.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page=1&page_size={{ips.paginator.per_page}}&ip={{search_ip}}">第一页</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{ ips.previous_page_number }}&page_size={{ips.paginator.per_page}}&ip={{search_ip}}">上一页</a></li>
+        {% else %}
+        <li class="page-item disabled"><a class="page-link" href="#">上一页</a></li>
+        {% endif %}
+        
+        <li class="page-item"><a class="page-link" href="?page={{ ips.number }}&page_size={{ips.paginator.per_page}}&ip={{search_ip}}">{{ ips.number }}</a></li>
+        {% if ips.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ ips.next_page_number }}&page_size={{ips.paginator.per_page}}&ip={{search_ip}}">下一页</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{ ips.paginator.num_pages}}&page_size={{ips.paginator.per_page}}&ip={{search_ip}}">最后一页</a></li>
+        {% else %}
+          <li class="page-item disabled"><a class="page-link" href="#">下一页</a></li>
+        {% endif %}
+      </ul>
+      
+      <select id="pageSelect" class="form-select form-select-sm mb-3" style="width: 100px;">
+        <option value="5">5 条/页</option>
+        <option value="10" selected>10 条/页</option>
+        <option value="15">15 条/页</option>
+      </select>
+    </nav>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<script>
+
+$(function() {
+  // 搜索框默认值
+  var search_ip = "{{search_ip}}";
+  $("#searchinput").val(search_ip)
+  // 搜索事件
+  $("#searchbtn").click(function(){
+    var search_text =  $("#searchinput").val();
+    location.href="?ip=" + search_text;
+  })
+
+  //分页选择
+  $("#pageSelect").val("{{ips.paginator.per_page}}");
+  $("#pageSelect").change(function () {
+    var page_size = $(this).val();
+    location.href="?page=1&page_size="+page_size;
+  });
+  
+});
+
+</script>
+{% endblock javascripts %}

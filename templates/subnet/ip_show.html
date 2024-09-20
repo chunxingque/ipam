@@ -1,0 +1,31 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<div>
+<p><b>网段：</b>{{ subnet.subnet }}，<b>名称：</b>：{{subnet.name}}</p>
+
+
+<div class="ip-group" style="display: grid; grid-template-columns: auto auto auto auto auto auto auto auto auto auto; grid-gap: 10px; padding: 10px; justify-content: center; ">
+{% for ip in ips_param %}
+{% if ip.used %}
+<a class="btn btn-primary btn-danger" href="/ip/edit/{{ip.id}}/" target="_blank" role="button">{{ ip.ip_address }}</a>
+{% else %}
+<a class="btn btn-primary btn-success" href="#" role="button">{{ ip.ip_address }}</a>
+{% endif %}
+{% endfor %}
+
+</div>
+</div>
+
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+{% endblock javascripts %}

@@ -1,0 +1,69 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<style>
+    .errorMsg {
+        color: red;
+        font-weight: normal;
+    }
+</style>
+
+{% endblock stylesheets %}
+
+{% block content %}
+<p><b>IP地址添加<b><p>
+<div class="form" style="display: flex; flex-direction: row; width: 100%; flex-wrap: nowrap;  justify-content: center">
+
+    <form action="/ip/add/" method="post" style="width: 500px">
+        {% csrf_token %}
+        <div class="row mb-3">
+            <label for="ip_address" class="col-sm-2 col-form-label">{{ form.ip_address.label }}:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="ip_address" value="{{form.ip_address.value}}">
+            </div>
+        </div>
+        {% for error in form.ip_address.errors %}
+        <p class="errorMsg">{{ error }}</p>
+        {% endfor %}
+        {% for error in custom_errors.ip_address %}
+        <p class="errorMsg">{{ error }}</p>
+        {% endfor %}
+        <div class="row mb-3">
+            <label for="subnet" class="col-sm-2 col-form-label">{{ form.subnet.label }}:</label>
+            <div class="col-sm-10">
+                <select class="form-select" name="subnet" value="{{form.subnet.value}}">
+                    {% for value,label in form.subnet.field.choices %}
+                    <option value="{{ value }}">{{label}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        {% for error in form.subnet.errors %}
+        <p class="errorMsg">{{ error }}</p>
+        {% endfor %}
+        <div class="row mb-3">
+            <label for="description" class="col-sm-2 col-form-label">{{ form.description.label }}:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="description" value="{{form.description.value}}">
+            </div>
+            <p>{{ form.description.errors }}</p>
+        </div>
+        {% for error in form.description.errors %}
+        <p class="errorMsg">{{ error }}</p>
+        {% endfor %}
+        <div class="row mb-3">
+            <div class="col-sm-10"></div>
+            <div class="col-sm-2">
+                <button class="btn btn-primary" type="submit" style="width: 100%;">提 交</button>
+            </div>
+        </div>
+    </form>
+    <div>
+
+        {% endblock content %}
+        <!-- Specific Page JS goes HERE  -->
+        {% block javascripts %}
+        {% endblock javascripts %}

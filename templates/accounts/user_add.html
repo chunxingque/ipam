@@ -1,0 +1,80 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<style>
+    .errorMsg {
+        color: red;
+        font-weight: normal;
+    }
+</style>
+
+{% endblock stylesheets %}
+
+{% block content %}
+<p><b>用户添加<b><p>
+<div class="form" style="display: flex; flex-direction: row; width: 100%; flex-wrap: nowrap;  justify-content: center">
+
+    <form action="/user/add/" method="post" style="width: 500px">
+        {% csrf_token %}
+        <div class="row mb-3">
+            <label for="username" class="col-sm-3 col-form-label">{{ form.username.label }}:</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" name="username" value="{{form.username.value}}">
+            </div>
+        </div>
+        {% for error in form.username.errors %}
+        <p class="errorMsg">{{ error }}</p>
+        {% endfor %}
+        <div class="row mb-3">
+            <label for="email" class="col-sm-3 col-form-label">{{ form.email.label }}:</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" name="email" value="{{form.email.value}}">
+            </div>
+        </div>
+        {% for error in form.email.errors %}
+        <p class="errorMsg">{{ error }}</p>
+        {% endfor %}
+        <div class="row mb-3">
+            <label for="password1" class="col-sm-3 col-form-label">{{ form.password1.label }}:</label>
+            <div class="col-sm-9">
+                <input type="password" class="form-control" name="password1" value="{{form.password1.value}}">
+            </div>
+            <p>{{ form.password1.errors }}</p>
+        </div>
+        {% for error in form.password1.errors %}
+        <p class="errorMsg">{{ error }}</p>
+        {% endfor %}
+        
+        <div class="row mb-3">
+            <label for="password2" class="col-sm-3 col-form-label">{{ form.password2.label }}:</label>
+            <div class="col-sm-9">
+                <input type="password" class="form-control" name="password2" value="{{form.password2.value}}">
+            </div>
+        </div>
+        {% for error in form.password2.errors %}
+        <p class="errorMsg">{{ error }}</p>
+        {% endfor %}
+
+        {% if msg %}
+            {% if success %}
+            <p style="color: green;"> {{ msg }} </p>
+            {% else %}
+            <p class="errorMsg"> {{ msg }} </p>
+            {% endif %}
+        {% endif %}
+        <div class="row mb-3">
+            <div class="col-sm-10"></div>
+            <div class="col-sm-2">
+                <button class="btn btn-primary" type="submit" style="width: 100%;">提 交</button>
+            </div>
+        </div>
+    </form>
+    <div>
+
+        {% endblock content %}
+        <!-- Specific Page JS goes HERE  -->
+        {% block javascripts %}
+        {% endblock javascripts %}

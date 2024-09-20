@@ -1,0 +1,18 @@
+<div style="display: flex;justify-content: end;margin-right: 40px;">
+    <div class="dropdown">
+        <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
+            <span class="text-dark">
+                {{ request.user.username }}
+            </span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="/user/">用户管理</a></li>
+          <li>
+            <form id="logoutForm" action="/logout/" method="post">
+                {% csrf_token %}
+            <a class="dropdown-item" onclick="document:logoutForm.submit()">用户注销</a>
+            </form>
+        </li>
+        </ul>
+      </div>
+</div>
