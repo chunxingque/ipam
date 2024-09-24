@@ -1,13 +1,12 @@
 ## ip管理系统
 
-此系统是一个管理ip的web系统，使用django和bootstrap技术栈，功能比较简单，支持一些ip管理的常用功能
+此系统是一个IP管理的web系统，主要使用django5和bootstrap5实现，功能比较简单，主要用于记录与查看不同网段的ip使用情况
 
 主要功能：
 
 - 支持添加子网和ip
 - 支持查看子网ip的可视面板，方便知道子网ip的使用情况
 - 支持用户登录
-
 
 ### 运行系统
 
@@ -35,14 +34,11 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
-
-
 **4.创建用户**
 
 ```
  python manage.py createsuperuser
 ```
-
 
 **5.运行系统**
 
@@ -51,7 +47,6 @@ python manage.py runserver 0.0.0.0:8080
 ```
 
 访问系统：http://127.0.0.1:8080
-
 
 ## 命令行工具
 
